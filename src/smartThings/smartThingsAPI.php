@@ -70,9 +70,16 @@ class SmartThingsAPI {
         }
         $device_obj = array();
         foreach ($this->devices as $device) {
+            
+            if (!\array_key_exists('deviceTypeName', $device)) {
+                $device['deviceTypeName'] = $device['type'];
+            }
             switch($device['deviceTypeName']) {
                 case 'Samsung OCF TV':
                     $device_obj[] = new TV($device);
+                    break;
+                case 'Samsung OCF Air Conditioner':
+                    $device_obj[] = new Aircon($device);
                     break;
                 default:
                     $device_obj[] = new Generic($device);
